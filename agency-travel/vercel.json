@@ -1,0 +1,11 @@
+{
+  "framework": "vite",
+  "buildCommand": "pnpm vercel-build",
+  "outputDirectory": "dist/spa",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
