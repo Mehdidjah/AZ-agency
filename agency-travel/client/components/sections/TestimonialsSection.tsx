@@ -1,13 +1,4 @@
-import { useCallback, useRef, useState } from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  MessageCircle,
-  CheckCircle,
-  Hotel,
-  Volume2,
-  VolumeX,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, MessageCircle, CheckCircle, Hotel } from "lucide-react";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { resolveImageUrl } from "@/lib/payload";
 
@@ -36,8 +27,6 @@ const Stars = ({ count }: { count: number }) => (
 const TestimonialsSection = () => {
   const { data: cmsTestimonials } = useTestimonials();
   const allItems = cmsTestimonials?.length ? cmsTestimonials : fallbackTestimonials;
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
 
   const textItems = allItems.filter((t) => t.type !== "video");
   const videoItem = allItems.find((t) => t.type === "video");
@@ -46,21 +35,6 @@ const TestimonialsSection = () => {
     : "/assets/figma/testimonial.png";
   const videoQuoteText = (videoItem as any)?.videoQuote || "Organisation au top, tout était clair dès le départ. On a reçu les infos et l'assistance quand il fallait.";
   const videoAuthorText = videoItem ? `- ${videoItem.author}, ${videoItem.date}` : "- Flown Marketing, Septembre 2025";
-  const toggleVideoSound = useCallback(() => {
-    const video = videoRef.current;
-    const nextMuted = !isMuted;
-
-    if (video) {
-      video.muted = nextMuted;
-
-      if (!nextMuted) {
-        void video.play();
-      }
-    }
-
-    setIsMuted(nextMuted);
-  }, [isMuted]);
-
   return (
     <section id="temoignages" className="bg-[#F3F3F3] px-6 py-20 sm:px-10 lg:px-16">
       <div className="mx-auto max-w-[1380px]">
@@ -118,41 +92,17 @@ const TestimonialsSection = () => {
 
           <div className="w-full lg:w-[360px] flex-shrink-0 rounded-2xl relative overflow-hidden group min-h-[520px]">
             <video
-              ref={videoRef}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               src="/assets/videos/SnapInsta.to_AQMAHRM57p7nModboS3yXZBxNOz90lKZYaFnnGdo1VKx2MXyCJQP-hZTYYqLX7eM1DYaKtdnvLTzJNLXZSwfBlgEDDyU884nCksX4O0.mp4"
               poster={videoImageSrc}
               autoPlay
               loop
-              muted={isMuted}
+              muted
               playsInline
             />
-            <button
-              type="button"
-              onClick={toggleVideoSound}
-              className="absolute right-4 top-4 z-20 inline-flex items-center gap-2 rounded-full bg-black px-3 py-2 text-xs font-medium tracking-tight text-white transition-colors hover:bg-black/85"
-              aria-label={isMuted ? "Activer le son de la vidéo" : "Couper le son de la vidéo"}
-            >
-              {isMuted ? (
-                <VolumeX className="h-4 w-4" />
-              ) : (
-                <Volume2 className="h-4 w-4" />
-              )}
-              <span>{isMuted ? "Activer le son" : "Couper le son"}</span>
-            </button>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
 
-            <div
-              className="absolute inset-x-0 bottom-0 z-10 h-[320px] pointer-events-none"
-              style={{
-                backgroundColor: "#000000",
-                WebkitMaskImage:
-                  "linear-gradient(to top, #000 0%, #000 18%, rgba(0,0,0,0.96) 34%, rgba(0,0,0,0.78) 54%, rgba(0,0,0,0.46) 76%, rgba(0,0,0,0.18) 91%, transparent 100%)",
-                maskImage:
-                  "linear-gradient(to top, #000 0%, #000 18%, rgba(0,0,0,0.96) 34%, rgba(0,0,0,0.78) 54%, rgba(0,0,0,0.46) 76%, rgba(0,0,0,0.18) 91%, transparent 100%)",
-              }}
-            />
-
-            <div className="absolute bottom-[120px] left-4 right-4 z-20 flex justify-between">
+            <div className="absolute bottom-[120px] left-4 right-4 flex justify-between">
               <button className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-colors">
                 <ChevronLeft className="w-4 h-4 text-white" />
               </button>
@@ -161,7 +111,7 @@ const TestimonialsSection = () => {
               </button>
             </div>
 
-            <div className="absolute bottom-0 left-0 right-0 z-20 p-5">
+            <div className="absolute bottom-0 left-0 right-0 p-5">
               <p className="font-jakarta font-semibold text-base leading-snug tracking-tight text-white mb-3">
                 "{videoQuoteText}"
               </p>

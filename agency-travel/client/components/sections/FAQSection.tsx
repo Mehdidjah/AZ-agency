@@ -47,10 +47,10 @@ const FAQSection = () => {
   const hasFaqs = faqs.length > 0;
   const rowLayoutClass = hasFaqs
     ? "flex flex-col lg:flex-row gap-12 items-stretch"
-    : "flex w-full";
+    : "flex flex-col items-center";
   const passportCardClass = hasFaqs
     ? "w-full min-h-[520px] lg:min-h-0 bg-[#F9F9F9] rounded-2xl relative overflow-hidden select-none touch-none lg:w-[520px]"
-    : "w-full max-w-[520px] min-h-[520px] bg-[#F9F9F9] rounded-2xl relative overflow-hidden select-none touch-none mx-auto lg:ml-auto lg:mr-0";
+    : "w-full max-w-[520px] min-h-[520px] bg-[#F9F9F9] rounded-2xl relative overflow-hidden select-none touch-none mx-auto";
 
   return (
     <section id="faq" className="px-6 sm:px-10 lg:px-29 py-20 bg-white">
